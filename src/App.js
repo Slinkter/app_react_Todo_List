@@ -39,6 +39,24 @@ function App() {
     searchedTodos = stateTodos;
   }
 
+  //metodo , cambiar de false a true
+  const onUpdateItem = (text) => {
+    const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger index , sale un numero
+    const newTodos = [...stateTodos]; // copy array
+    newTodos[index].completed = true; //cambiar a true
+    setStateTodos(newTodos);
+
+    console.log(index);
+    console.log(newTodos);
+  };
+
+  const onDeleteItem = (text) => {
+    const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger
+    const newTodos = [...stateTodos];
+    newTodos.splice(index, 1);
+    setStateTodos(newTodos);
+  };
+
   return (
     <React.Fragment>
       {
@@ -55,6 +73,8 @@ function App() {
               key={item.text}
               text={item.text}
               completed={item.completed}
+              onUpdateItem={() => onUpdateItem(item.text)}
+              onDeleteItem={() => onDeleteItem(item.text)}
             />
           ))}
         </TodoList>
