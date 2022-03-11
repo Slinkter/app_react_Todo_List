@@ -1,10 +1,6 @@
 import "./App.css";
 import React from "react";
-import { TodoCounter } from "./components/TodoCounter";
-import { TodoSearch } from "./components/TodoSearch";
-import { TodoList } from "./components/TodoList";
-import { TodoItem } from "./components/TodoItem";
-import { CreateTodoButton } from "./components/CreateTodoButton";
+import { AppUI } from "./AppUI";
 
 // data externa
 
@@ -29,14 +25,14 @@ function App() {
 
   let searchedTodos = [];
 
-  if (stateSearch.length >= 1) {
+  if (!stateSearch.length >= 1) {
+    searchedTodos = stateTodos;
+  } else {
     searchedTodos = stateTodos.filter((item) => {
       const todoText = item.text.toLowerCase();
       const searchText = stateSearch.toLowerCase();
       return todoText.includes(searchText);
     });
-  } else {
-    searchedTodos = stateTodos;
   }
 
   //metodo , cambiar de false a true
@@ -45,7 +41,6 @@ function App() {
     const newTodos = [...stateTodos]; // copy array
     newTodos[index].completed = true; //cambiar a true
     setStateTodos(newTodos);
-
     console.log(index);
     console.log(newTodos);
   };
@@ -58,29 +53,15 @@ function App() {
   };
 
   return (
-    <React.Fragment>
-      {
-        <TodoCounter
-          total={count_TotalTodos}
-          completed={count_CompletedTodos}
-        />
-      }
-      {<TodoSearch stateSearch={stateSearch} setStateSearch={setStateSearch} />}
-      {
-        <TodoList>
-          {searchedTodos.map((item) => (
-            <TodoItem
-              key={item.text}
-              text={item.text}
-              completed={item.completed}
-              onUpdateItem={() => onUpdateItem(item.text)}
-              onDeleteItem={() => onDeleteItem(item.text)}
-            />
-          ))}
-        </TodoList>
-      }
-      {<CreateTodoButton />}
-    </React.Fragment>
+    <AppUI
+      count_TotalTodos={count_TotalTodos}
+      count_CompletedTodos={count_CompletedTodos}
+      stateSearch={stateSearch}
+      setStateSearch={setStateSearch}
+      searchedTodos={searchedTodos}
+      onUpdateItem={onUpdateItem}
+      onDeleteItem={onDeleteItem}
+    />
   );
 }
 
