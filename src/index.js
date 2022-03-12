@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+<<<<<<< HEAD
 import reportWebVitals from "./reportWebVitals";
 
 
@@ -19,3 +20,7 @@ ReactDOM.render(
 );
 
 reportWebVitals();
+=======
+
+ReactDOM.render(<App />, document.getElementById("root"));
+>>>>>>> 0001dcb7f4b0f9c5afc5d89c4c6ea5693ebba427
