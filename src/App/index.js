@@ -4,29 +4,42 @@ import { AppUI } from "./AppUI";
 
 // data externa
 
-// const defaultTODOs = [
-//   { text: "Cortar cebolla", completed: true },
-//   { text: "Tomar clases de ingles", completed: false },
-//   { text: "llorara con al llorona", completed: false },
-//   { text: "Curso Fisica", completed: false },
-//   { text: "Curso Node", completed: true },
-// ];
+/* const defaultTODOs = [
+  { text: "Cortar cebolla", completed: true },
+  { text: "Tomar clases de ingles", completed: false },
+  { text: "llorara con al llorona", completed: false },
+  { text: "Curso Fisica", completed: false },
+  { text: "Curso Node", completed: true },
+]; */
 
 // importacion de components
 
-function App() {
-  const localStorageTodos = localStorage.getItem("TODOS_V1");
-
-  let arrayDefaultParsedTodos;
-
-  if (!localStorageTodos) {
-    localStorage.setItem("TODOS_V1", JSON.stringify([]))
-    arrayDefaultParsedTodos = []
+function useLocalStorage(itemName,initialValue) {
+  const localStorageItem = localStorage.getItem(itemName);
+  let parsedItem;
+//
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue;
   } else {
-    arrayDefaultParsedTodos = JSON.parse(localStorageTodos);
+    parsedItem = JSON.parse(localStorageItem);
   }
 
-  const [stateTodos, setStateTodos] = React.useState(arrayDefaultParsedTodos);
+  const [item, setItem] = React.useState(parsedItem);
+
+  //LOCALSTORAGE
+  const saveItem = (newItem) => {
+    const stringifiedItem = JSON.stringify(newItem);
+    localStorage.setItem(itemName, stringifiedItem);
+    setItem(newItem);
+  };
+
+  return [item,saveItem]
+}
+
+function App() {
+  const [stateTodos, saveItem] = useLocalStorage("TODOS_V1",[]);
+
   const [stateSearch, setStateSearch] = React.useState("");
 
   const count_TotalTodos = stateTodos.length;
@@ -46,29 +59,19 @@ function App() {
     });
   }
 
-  //LOCALSTORAGE
-  const saveTodos = (newTodos) =>{
-    const stringifyTodos = JSON.stringify(newTodos)
-    localStorage.setItem('TODOS_V1',stringifyTodos)
-    setStateTodos(newTodos)
-  }
-
-
-
   //metodo , cambiar de false a true
   const onUpdateItem = (text) => {
     const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger index , sale un numero
     const newTodos = [...stateTodos]; // copy array
     newTodos[index].completed = true; //cambiar a true
-    saveTodos(newTodos);
-   
+    saveItem(newTodos);
   };
 
   const onDeleteItem = (text) => {
     const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger
     const newTodos = [...stateTodos];
     newTodos.splice(index, 1);
-    saveTodos(newTodos);
+    saveItem(newTodos);
   };
 
   return (
