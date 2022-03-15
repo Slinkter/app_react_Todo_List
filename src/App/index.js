@@ -12,36 +12,60 @@ import { AppUI } from "./AppUI";
   { text: "Curso Node", completed: true },
 ]; */
 
+// localStorage.setItem("TODOS_V1", JSON.stringify(defaultTODOs));
+
 // importacion de components
 
-function useLocalStorage(itemName,initialValue) {
-  const localStorageItem = localStorage.getItem(itemName);
-  let parsedItem;
-//
-  if (!localStorageItem) {
-    localStorage.setItem(itemName, JSON.stringify(initialValue));
-    parsedItem = initialValue;
-  } else {
-    parsedItem = JSON.parse(localStorageItem);
-  }
+function useLocalStorage(itemName, initialValue) {
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
+  const [item, setItem] = React.useState(initialValue);
 
-  const [item, setItem] = React.useState(parsedItem);
+  React.useEffect(() => {
+    setTimeout(() => {
+      try {
+        const localStorageItem = localStorage.getItem(itemName);
+        let parsedItem;
+        //
+        if (!localStorageItem) {
+          localStorage.setItem(itemName, JSON.stringify(initialValue));
+          parsedItem = initialValue;
+        } else {
+          parsedItem = JSON.parse(localStorageItem);
+        }
+
+        setItem(parsedItem);
+        setLoading(false);
+      } catch (error) {       
+        setError(error);
+      }
+    }, 2000);
+  }, []);
 
   //LOCALSTORAGE
   const saveItem = (newItem) => {
-    const stringifiedItem = JSON.stringify(newItem);
-    localStorage.setItem(itemName, stringifiedItem);
-    setItem(newItem);
+    try {
+      const stringifiedItem = JSON.stringify(newItem);
+      localStorage.setItem(itemName, stringifiedItem);
+      setItem(newItem);
+    } catch (error) {
+      setError(error);
+    }
   };
 
-  return [item,saveItem]
+  return { item, saveItem, loading,error };
 }
 
 function App() {
-  const [stateTodos, saveItem] = useLocalStorage("TODOS_V1",[]);
+  const {
+    item: stateTodos,
+    saveItem: saveItem,
+    loading,
+    error
+  } = useLocalStorage("TODOS_V1", []);
+  console.log(stateTodos);
 
   const [stateSearch, setStateSearch] = React.useState("");
-
   const count_TotalTodos = stateTodos.length;
   const count_CompletedTodos = stateTodos.filter(
     (item) => !!item.completed
@@ -74,8 +98,12 @@ function App() {
     saveItem(newTodos);
   };
 
+  //===============================>
+
   return (
     <AppUI
+      loading={loading}
+      error={error}
       count_TotalTodos={count_TotalTodos}
       count_CompletedTodos={count_CompletedTodos}
       stateSearch={stateSearch}
