@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/appreact/static/css/main.97fcdf26.css",
+    "main.js": "/appreact/static/js/main.8ab5866b.js",
+    "index.html": "/appreact/index.html",
+    "main.97fcdf26.css.map": "/appreact/static/css/main.97fcdf26.css.map",
+    "main.8ab5866b.js.map": "/appreact/static/js/main.8ab5866b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97fcdf26.css",
+    "static/js/main.8ab5866b.js"
+  ]
+}
