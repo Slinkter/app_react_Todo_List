@@ -18,10 +18,9 @@
     width: 64px;
 
 
-
-
     transform: rotate(0);
     transition: .5s ease;
+    z-index: 1;
 
 }
 

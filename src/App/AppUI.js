@@ -1,12 +1,13 @@
 import React from "react";
 import { TodoCounter } from "../components/TodoCounter";
-import { TodoContext } from "../TodoContext";
+import { TodoContext } from "../components/TodoContext";
 import { TodoSearch } from "../components/TodoSearch";
 import { TodoList } from "../components/TodoList";
 import { TodoItem } from "../components/TodoItem";
 import { CreateTodoButton } from "../components/CreateTodoButton";
 
-import { Modal } from "../Modal";
+import { Modal } from "../components/Modal";
+import { TodoForm } from "../components/TodoForm";
 
 function AppUI() {
   const {
@@ -41,7 +42,7 @@ function AppUI() {
 
       {!!openModel && (
         <Modal>
-          <p>{searchedTodos[0]?.text}</p>
+          <TodoForm/>
         </Modal>
       )}
 

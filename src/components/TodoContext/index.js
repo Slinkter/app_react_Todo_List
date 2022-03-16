@@ -32,13 +32,27 @@ function TodoProvider(props) {
     });
   }
 
-  //metodo , cambiar de false a true
+  //metodo , cambiar de false a true saveItem
+
+  const addTodo = (text) => {
+    const newTodos = [...stateTodos]; // copy array
+    newTodos.push({
+      competed:false,
+      text ,
+    })  //cambiar a true
+    saveItem(newTodos);
+  };
+
+
+
   const onUpdateItem = (text) => {
     const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger index , sale un numero
     const newTodos = [...stateTodos]; // copy array
     newTodos[index].completed = true; //cambiar a true
     saveItem(newTodos);
   };
+
+
 
   const onDeleteItem = (text) => {
     const index = stateTodos.findIndex((item) => item.text === text); // si coincide el text ,coger
@@ -59,6 +73,7 @@ function TodoProvider(props) {
         stateSearch,
         setStateSearch,
         searchedTodos,
+        addTodo,
         onUpdateItem,
         onDeleteItem,
         openModel,
