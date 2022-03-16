@@ -7,12 +7,14 @@ import { TodoItem } from "../components/TodoItem";
 import { CreateTodoButton } from "../components/CreateTodoButton";
 
 function AppUI() {
+  const { error, loading, searchedTodos, onUpdateItem, onDeleteItem } =
+    React.useContext(TodoContext);
+
   return (
     <React.Fragment>
       {<TodoCounter />}
       {<TodoSearch />}
-      <TodoContext.Consumer>
-      {({error,loading,searchedTodos,onUpdateItem,onDeleteItem})=>(  <TodoList >
+      <TodoList>
         {error && <p> Hubo un error</p>}
         {loading && <p> Estamos cargando</p>}
         {!loading && !searchedTodos.lenght && <p>Crear tu primer TODO</p>}
@@ -26,8 +28,7 @@ function AppUI() {
             onDeleteItem={() => onDeleteItem(item.text)}
           />
         ))}
-      </TodoList>)}
-      </TodoContext.Consumer>
+      </TodoList>
       {<CreateTodoButton />}
     </React.Fragment>
   );
