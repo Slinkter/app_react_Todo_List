@@ -15,6 +15,7 @@ import { AppUI } from "./AppUI";
 // importacion de components
 
 function App() {
+  
   const localStorageTodos = localStorage.getItem("TODOS_V1");
 
   let arrayDefaultParsedTodos;
@@ -24,6 +25,7 @@ function App() {
     arrayDefaultParsedTodos = []
   } else {
     arrayDefaultParsedTodos = JSON.parse(localStorageTodos);
+
   }
 
   const [stateTodos, setStateTodos] = React.useState(arrayDefaultParsedTodos);
